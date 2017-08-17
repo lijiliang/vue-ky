@@ -5,6 +5,7 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'  // 使用css
 import App from './App'
 import router from './router'
+import 'common/less/reset.less'
 
 fastclick.attach(document.body)
 

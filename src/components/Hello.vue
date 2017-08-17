@@ -1,131 +1,131 @@
 <template>
     <div class="aaa">
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-            <Form-item label="姓名" prop="name">
-                <Input v-model="formValidate.name" :show-message="false" placeholder="请输入姓名"></Input>
-            </Form-item>
-            <Form-item label="邮箱" prop="mail">
-                <Input v-model="formValidate.mail" placeholder="请输入邮箱"></Input>
-            </Form-item>
-            <Form-item label="城市" prop="city">
-                <Select v-model="formValidate.city" placeholder="请选择所在地">
-                    <Option value="beijing">北京市</Option>
-                    <Option value="shanghai">上海市</Option>
-                    <Option value="shenzhen">深圳市</Option>
-                </Select>
-            </Form-item>
-            <Form-item label="选择日期">
-                <Row>
-                    <Col span="11">
-                        <Form-item prop="date">
-                            <Date-picker type="date" placeholder="选择日期" v-model="formValidate.date"></Date-picker>
-                        </Form-item>
-                    </Col>
-                    <Col span="2" style="text-align: center">-</Col>
-                    <Col span="11">
-                        <Form-item prop="time">
-                            <Time-picker type="time" placeholder="选择时间" v-model="formValidate.time"></Time-picker>
-                        </Form-item>
-                    </Col>
-                </Row>
-            </Form-item>
-            <Form-item label="性别" prop="gender">
-                <Radio-group v-model="formValidate.gender">
-                    <Radio label="male">男</Radio>
-                    <Radio label="female">女</Radio>
-                </Radio-group>
-            </Form-item>
-            <Form-item label="爱好" prop="interest">
-                <Checkbox-group v-model="formValidate.interest">
-                    <Checkbox label="吃饭"></Checkbox>
-                    <Checkbox label="睡觉"></Checkbox>
-                    <Checkbox label="跑步"></Checkbox>
-                    <Checkbox label="看电影"></Checkbox>
-                </Checkbox-group>
-            </Form-item>
-            <Form-item label="介绍" prop="desc">
-                <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
-            </Form-item>
-            <Form-item>
-                <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
-                <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-            </Form-item>
-        </Form>
-        <div class="bbb">
-            <span class="cc">adsf</span>
+        {{msg}}
+        <div class="ifelse" v-if="ifelse">if</div>
+        <div class="ifelse" v-else="!ifelse">else</div>
+        <ul>
+            <li v-for="(item, index) in arr">
+                {{item}}--{{index}}
+            </li>
+        </ul>
+        <a href="www.baidu.com" v-on:prevent>sad</a>
+        <!-- <div :prop="something">v-bind</div> -->
+        <img :src="url" :style="{width: '100px'}">
+        <input type="text" v-model:trim="text">
+        {{text}}
+        <span v-pre>{{msg}}</span>
+        <span v-cloak>{{msg}}</span>
+        <span v-once>this will never change: {{msg}}</span>
+        <div ref="wrapper">wrrap</div>
+        <span v-bind:title="msg" v-on:click="message">sadf</span>
+        <p :class="classss">{{reverMessage}}</p>
+        <p v-for="item of items">{{item.message}}</p>
+        <p v-for="(value, key, index) of objects" :key="index">{{key}} : {{value}}  -- {{index}}</p>
+        <p v-for="n in evenNumber">{{n}}</p>
+        <button @click="green">button</button>
+        <button v-on:keyup.enter="green">keyup</button>
+        <button @click="warn('Form cannot be submitted yet', $event)">button</button>
+        <div>
+            <input type="text" v-model.trim="msg" placeholder="edit me">
+            <input type="checkbox" id="checkbox" v-model="checkbox">
+            <label for="checkbox">{{checkbox}}</label>
+            <label for="jack"><input type="checkbox" id="jack" value="jack" v-model="checkedNames">jack</label>
+            <label for="john"><input type="checkbox" id="john" value="john" v-model="checkedNames">john</label>
+            <label for="benson"><input type="checkbox" id="benson" value="benson" v-model="checkedNames">benson</label>
         </div>
+        <div class="radio">
+            <input type="radio" id="one" value="one" v-model="picked">
+            <label for="one">One</label>
+            <br>
+            <input type="radio" id="two" value="two" v-model="picked">
+            <label for="two">two</label>
+        </div>
+        <button v-on:click="show = !show">show</button>
+        <transition name="fade">
+            <p v-if="show">hello</p>
+        </transition>
     </div>
 </template>
 <script>
+    var minix = {
+        created: function () {
+            console.log('混合对象被调用')
+        }
+    }
     export default {
+        mixins: [minix],
         data () {
             return {
-                formValidate: {
-                    name: '',
-                    mail: '',
-                    city: '',
-                    gender: '',
-                    interest: [],
-                    date: '',
-                    time: '',
-                    desc: ''
+                msg: '   abcd  ',
+                html: '<div class="htmls">html</div>',
+                show: true,
+                ifelse: true,
+                arr: ['a', 'b', 'c'],
+                url: 'https://cn.vuejs.org/images/logo.png',
+                text: '',
+                classss: 'class1',
+                items: [
+                    {message: 'Foo'},
+                    {message: 'Bar'}
+                ],
+                objects: {
+                    firstName: 'liang',
+                    lastName: 'benson',
+                    age: 18
                 },
-                ruleValidate: {
-                    name: [
-                        { required: true, message: '姓名不能为空', trigger: 'blur', error: 'adssd' }
-                    ],
-                    mail: [
-                        { required: true, message: '邮箱不能为空', trigger: 'blur' },
-                        { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
-                    ],
-                    city: [
-                        { required: true, message: '请选择城市', trigger: 'change' }
-                    ],
-                    gender: [
-                        { required: true, message: '请选择性别', trigger: 'change' }
-                    ],
-                    interest: [
-                        { required: true, type: 'array', min: 1, message: '至少选择一个爱好', trigger: 'change' },
-                        { type: 'array', max: 2, message: '最多选择两个爱好', trigger: 'change' }
-                    ],
-                    date: [
-                        { required: true, type: 'date', message: '请选择日期', trigger: 'change' }
-                    ],
-                    time: [
-                        { required: true, type: 'date', message: '请选择时间', trigger: 'change' }
-                    ],
-                    desc: [
-                        { required: true, message: '请输入个人介绍', trigger: 'blur' },
-                        { type: 'string', min: 20, message: '介绍不能少于20字', trigger: 'blur' }
-                    ]
-                }
+                numbers: [1, 2, 3, 4, 5],
+                checkbox: false,
+                checkedNames: [],
+                picked: 'one'
             }
         },
+        created: function () {
+            console.log(this)
+            console.log('组件钩子被调用')
+        },
         methods: {
-            handleSubmit (name) {
-                this.$refs.formValidate.validateField('name', (e) => {
-                    console.log(e)
-                })
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.$Message.success('提交成功!')
-                    } else {
-                        this.$Message.error('表单验证失败!')
-                    }
-                })
+            message: function () {
+                this.text = 'asdfsadfsad'
             },
-            handleReset (name) {
-                this.$Message.warning('asdfasd')
-                this.$refs[name].resetFields()
+            green: function (event) {
+                console.log('hello' + this.msg + '!')
+                if (event) {
+                    console.log(event)
+                }
+            },
+            warn: function (message, event) {
+                console.log(message, event)
+            }
+        },
+        // 计算属性
+        computed: {
+            reverMessage: function () {
+                return this.msg.split('').reverse().join('')
+            },
+            evenNumber: function () {
+                return this.numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
             }
         }
     }
 </script>
 
 <style scoped lang="less">
-    .bbb{
+    #app{
+        padding: 20px 50px;
+        font-size: 50px;
+    }
+    .aaa{
+        font-size: 30px;
         .cc{
           font-size: 50px;  
         }
+    }
+    .fade-enter-active, .fate-leave-active {
+    transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to{
+        opacity: 0;
     }
 </style>
