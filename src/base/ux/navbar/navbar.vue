@@ -1,6 +1,5 @@
 <!--
-    navbar
-    @desc 导航栏
+    navbar  导航栏
 -->
 <template>
     <div :class="classes">
@@ -20,7 +19,7 @@
 </template>
 
 <script>
-    import { oneOf } from 'ux/utils/assist'
+    import { oneOf } from 'common/js/utils'
     const prefixCls = 'k-navbar'
 
     export default {
