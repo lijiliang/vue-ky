@@ -5,7 +5,7 @@ import Vue from 'vue'
 const isServer = Vue.prototype.$isServer
 
 /**
- * trim 去掉前后空格
+ * trim
  * @param {string} string 字符串
  */
 const trim = function (string) {

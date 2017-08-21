@@ -1,111 +1,68 @@
 <template>
-    <div class="mint-swipe">
-        <div class="mint-swipe-items-wrap" ref="wrap">
+    <div class="k-swipe">
+        <div class="k-swipe-items-wrap" ref="wrap">
             <slot></slot>
         </div>
-        <div class="mint-swipe-indicators" v-show="showIndicators">
-            <div class="mint-swipe-indicator"
+        <div class="k-swipe-indicators" v-show="showIndicators">
+            <div class="k-swipe-indicator"
                 v-for="(page, $index) in pages"
-                :class="{ 'is-active': $index === index }"
-                :key="$index"
-            ></div>
+                :class="{ 'is-active': $index === index }"></div>
         </div>
     </div>
 </template>
 <style socped lang="less">
     @import '~varless';
-    @prefixCls: mint-swipe;
+    @prefixCls: k-swipe;
 
-    // .@{prefixCls} {
-    //     overflow: hidden;
-    //     position: relative;
-    //     height: 100%;
+    .@{prefixCls} {
+        overflow: hidden;
+        position: relative;
+        height: 100%;
 
-    //     &-items-wrap{
-    //         position: relative;
-    //         overflow: hidden;
-    //         height: 100%;
+        &-items-wrap{
+            position: relative;
+            overflow: hidden;
+            height: 100%;
 
-    //         > div {
-    //             position: absolutes;
-    //             transform: translateX(-100%);
-    //             size: 100% 100%;
-    //             display: none;
-    //             &.active{
-    //                 display: block;
-    //                 transform: none;
-    //             }
-    //         }
-    //     }
+            > div {
+                position: absolute;
+                transform: translateX(-100%);
+                width: 100%;
+                height: 100%;
+                display: none;
+                &.is-active{
+                    display: block;
+                    transform: none;
+                }
+            }
+        }
 
-    //     &-indicators {
-    //         position: absolute;
-    //         bottom: 10px;
-    //         left: 50%;
-    //         transform: translateX(-50%)
-    //     }
-    //     &-indicator{
-    //         size: 8px 8px;
-    //         display: inline-block;
-    //         border-radius: 100%;
-    //         background: #000;
-    //         opacity: 0.2;
-    //         margin: 0 3px;
-    //         &.active{
-    //             background: #fff;
-    //         }
-    //     }
-    // }
-
-.mint-swipe {
-    overflow: hidden;
-    position: relative;
-    height: 100%;
-}
-.mint-swipe-items-wrap {
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-}
-.mint-swipe-items-wrap > div {
-    position: absolute;
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
-    width: 100%;
-    height: 100%;
-    display: none
-}
-.mint-swipe-items-wrap > div.is-active {
-    display: block;
-    -webkit-transform: none;
-            transform: none;
-}
-.mint-swipe-indicators {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
-}
-.mint-swipe-indicator {
-    width: 8px;
-    height: 8px;
-    display: inline-block;
-    border-radius: 100%;
-    background: #000;
-    opacity: 0.2;
-    margin: 0 3px;
-}
-.mint-swipe-indicator.is-active {
-    background: #fff;
-}
+        &-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%)
+        }
+        &-indicator{
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 100%;
+            background: #000;
+            opacity: 0.2;
+            margin: 0 3px;
+            &.is-active{
+                background: #fff;
+            }
+        }
+    }
 </style>
 
 <script>
     import {once, addClass, removeClass} from 'common/js/dom'
 
     export default {
-        name: 'swipe',
+        name: 'k-swipe',
 
         created () {
             this.dragState = {}
@@ -138,7 +95,7 @@
             // 自动播放的时间间隔(毫秒)
             auto: {
                 type: Number,
-                default: 300
+                default: 3000
             },
             // 是否可以循环播放
             continuous: {
@@ -196,9 +153,9 @@
                         element.style.webkitTransform = `translate3d(${offset}px, 0, 0)`
                     }, 50)
 
-                    let called = false
+                    var called = false
 
-                    let transitionEndCallback = () => {
+                    var transitionEndCallback = () => {
                         if (called) return
                         called = true
                         this.animating = false
@@ -208,6 +165,7 @@
                             callback.apply(this, arguments)
                         }
                     }
+
                     once(element, 'webkitTransitionEnd', transitionEndCallback)
                     setTimeout(transitionEndCallback, speed + 100) // webkitTransitionEnd maybe not fire on lower version android.
                 } else {
@@ -217,12 +175,12 @@
             },
 
             reInitPages () {
-                let children = this.$children
+                var children = this.$children
                 this.noDrag = children.length === 1 && this.noDragWhenSingle
 
-                let pages = []
-                let intDefaultIndex = Math.floor(this.defaultIndex)
-                let defaultIndex = (intDefaultIndex >= 0 && intDefaultIndex < children.length) ? intDefaultIndex : 0
+                var pages = []
+                var intDefaultIndex = Math.floor(this.defaultIndex)
+                var defaultIndex = (intDefaultIndex >= 0 && intDefaultIndex < children.length) ? intDefaultIndex : 0
                 this.index = defaultIndex
 
                 children.forEach(function (child, index) {
@@ -234,6 +192,7 @@
                         addClass(child.$el, 'is-active')
                     }
                 })
+
                 this.pages = pages
             },
 
@@ -241,11 +200,11 @@
                 if (this.$children.length === 0) return
                 if (!options && this.$children.length < 2) return
 
-                let prevPage, nextPage, currentPage, pageWidth, offsetLeft
-                let speed = this.speed || 300
-                let index = this.index
-                let pages = this.pages
-                let pageCount = pages.length
+                var prevPage, nextPage, currentPage, pageWidth, offsetLeft
+                var speed = this.speed || 300
+                var index = this.index
+                var pages = this.pages
+                var pageCount = pages.length
 
                 if (!options) {
                     pageWidth = this.$el.clientWidth
@@ -269,15 +228,16 @@
                         this.translate(nextPage, pageWidth)
                     }
                 } else {
-                    prevPage = options.prevent
+                    prevPage = options.prevPage
                     currentPage = options.currentPage
                     nextPage = options.nextPage
                     pageWidth = options.pageWidth
                     offsetLeft = options.offsetLeft
                 }
 
-                let newIndex
-                let oldPage = this.$children[index].$el
+                var newIndex
+
+                var oldPage = this.$children[index].$el
 
                 if (towards === 'prev') {
                     if (index > 0) {
@@ -295,9 +255,9 @@
                     }
                 }
 
-                let callback = () => {
+                var callback = () => {
                     if (newIndex !== undefined) {
-                        let newPage = this.$children[newIndex].$el
+                        var newPage = this.$children[newIndex].$el
                         removeClass(oldPage, 'is-active')
                         addClass(newPage, 'is-active')
 
@@ -317,7 +277,6 @@
                 }
 
                 setTimeout(() => {
-                    // 上一步
                     if (towards === 'next') {
                         this.isDone = true
                         this.before(currentPage)
@@ -325,7 +284,7 @@
                         if (nextPage) {
                             this.translate(nextPage, 0, speed)
                         }
-                    } else if (towards === 'prev') {   // 下一步
+                    } else if (towards === 'prev') {
                         this.isDone = true
                         this.before(currentPage)
                         this.translate(currentPage, pageWidth, speed, callback)
@@ -333,7 +292,7 @@
                             this.translate(prevPage, 0, speed)
                         }
                     } else {
-                        this.isDone = true
+                        this.isDone = false
                         this.translate(currentPage, 0, speed, callback)
                         if (typeof offsetLeft !== 'undefined') {
                             if (prevPage && offsetLeft > 0) {
@@ -353,24 +312,29 @@
                     }
                 }, 10)
             },
+
             next () {
                 this.doAnimate('next')
             },
+
             prev () {
                 this.doAnimate('prev')
             },
+
             before () {
                 this.$emit('before', this.index)
             },
+
             end () {
                 this.$emit('end', this.index)
             },
+
             doOnTouchStart (event) {
                 if (this.noDrag) return
 
-                let element = this.$el
-                let dragState = this.dragState
-                let touch = event.touches[0]
+                var element = this.$el
+                var dragState = this.dragState
+                var touch = event.touches[0]
 
                 dragState.startTime = new Date()
                 dragState.startLeft = touch.pageX
@@ -380,9 +344,9 @@
                 dragState.pageWidth = element.offsetWidth
                 dragState.pageHeight = element.offsetHeight
 
-                let prevPage = this.$children[this.index - 1]
-                let dragPage = this.$children[this.index]
-                let nextPage = this.$children[this.idnex + 1]
+                var prevPage = this.$children[this.index - 1]
+                var dragPage = this.$children[this.index]
+                var nextPage = this.$children[this.index + 1]
 
                 if (this.continuous && this.pages.length > 1) {
                     if (!prevPage) {
@@ -397,38 +361,40 @@
                 dragState.dragPage = dragPage ? dragPage.$el : null
                 dragState.nextPage = nextPage ? nextPage.$el : null
 
-                if (dragState.nextPage) {
+                if (dragState.prevPage) {
                     dragState.prevPage.style.display = 'block'
                 }
+
                 if (dragState.nextPage) {
                     dragState.nextPage.style.display = 'block'
                 }
             },
+
             doOnTouchMove (event) {
                 if (this.noDrag) return
 
-                let dragState = this.dragState
-                let touch = event.touches[0]
+                var dragState = this.dragState
+                var touch = event.touches[0]
 
                 dragState.currentLeft = touch.pageX
                 dragState.currentTop = touch.pageY
                 dragState.currentTopAbsolute = touch.clientY
 
-                let offsetLeft = dragState.currentLeft - dragState.startLeft
-                let offsetTop = dragState.currentTopAbsolute - dragState.startTopAbsolute
+                var offsetLeft = dragState.currentLeft - dragState.startLeft
+                var offsetTop = dragState.currentTopAbsolute - dragState.startTopAbsolute
 
-                let distanceX = Math.abs(offsetLeft)
-                let distanceY = Math.abs(offsetTop)
+                var distanceX = Math.abs(offsetLeft)
+                var distanceY = Math.abs(offsetTop)
                 if (distanceX < 5 || (distanceX >= 5 && distanceY >= 1.73 * distanceX)) {
                     this.userScrolling = true
-                    return true
+                    return
                 } else {
                     this.userScrolling = false
                     event.preventDefault()
                 }
                 offsetLeft = Math.min(Math.max(-dragState.pageWidth + 1, offsetLeft), dragState.pageWidth - 1)
 
-                let towards = offsetLeft < 0 ? 'next' : 'prev'
+                var towards = offsetLeft < 0 ? 'next' : 'prev'
 
                 if (dragState.prevPage && towards === 'prev') {
                     this.translate(dragState.prevPage, offsetLeft - dragState.pageWidth)
@@ -438,19 +404,20 @@
                     this.translate(dragState.nextPage, offsetLeft + dragState.pageWidth)
                 }
             },
+
             doOnTouchEnd () {
                 if (this.noDrag) return
 
-                let dragState = this.dragState
+                var dragState = this.dragState
 
-                let dragDuration = new Date() - dragState.startTime
-                let towards = null
+                var dragDuration = new Date() - dragState.startTime
+                var towards = null
 
-                let offsetLeft = dragState.currentLeft - dragState.startLeft
-                let offsetTop = dragState.currentTop - dragState.startTop
-                let pageWidth = dragState.pageWidth
-                let index = this.index
-                let pageCount = this.pages.length
+                var offsetLeft = dragState.currentLeft - dragState.startLeft
+                var offsetTop = dragState.currentTop - dragState.startTop
+                var pageWidth = dragState.pageWidth
+                var index = this.index
+                var pageCount = this.pages.length
 
                 if (dragDuration < 300) {
                     let fireTap = Math.abs(offsetLeft) < 5 && Math.abs(offsetTop) < 5
@@ -488,6 +455,7 @@
 
                 this.dragState = {}
             },
+
             initTimer () {
                 if (this.auto > 0 && !this.timer) {
                     this.timer = setInterval(() => {
@@ -500,18 +468,19 @@
                     }, this.auto)
                 }
             },
+
             clearTimer () {
                 clearInterval(this.timer)
                 this.timer = null
-            },
-            destroyed () {
-                if (this.timer) {
-                    this.clearTimer()
-                }
-                if (this.reInitTimer) {
-                    clearTimeout(this.reInitTimer)
-                    this.reInitTimer = null
-                }
+            }
+        },
+        destroyed () {
+            if (this.timer) {
+                this.clearTimer()
+            }
+            if (this.reInitTimer) {
+                clearTimeout(this.reInitTimer)
+                this.reInitTimer = null
             }
         },
         // 实例挂载完，调用该钩子函数
@@ -522,7 +491,7 @@
 
             this.reInitPages()
 
-            let element = this.$el
+            var element = this.$el
 
             element.addEventListener('touchstart', (event) => {
                 if (this.prevent) event.preventDefault()
@@ -535,7 +504,7 @@
 
             element.addEventListener('touchmove', (event) => {
                 if (!this.dragging) return
-                if (!this.timer) this.clearTimer()
+                if (this.timer) this.clearTimer()
                 this.doOnTouchMove(event)
             })
 

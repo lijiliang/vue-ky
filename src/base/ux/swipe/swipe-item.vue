@@ -1,12 +1,12 @@
 <template>
-    <div class="mint-swipe-item">
+    <div class="k-swipe-item">
         <slot></slot>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'mt-swipe-item',
+        name: 'k-swipe-item',
 
         mounted () {
             this.$parent && this.$parent.swipeItemCreated(this)
