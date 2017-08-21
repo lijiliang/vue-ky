@@ -15,37 +15,16 @@
       </navbar>
      <br>
      <h2>基础用法</h2>
-        <k-swipe :auto="4000">
-            <k-swipe-item class="slide1">1</k-swipe-item>
-            <k-swipe-item class="slide2">2</k-swipe-item>
-            <k-swipe-item class="slide3">3</k-swipe-item>
-        </k-swipe>
+    <k-swipe :auto="4000">
+        <k-swipe-item class="slide1">1</k-swipe-item>
+        <k-swipe-item class="slide2">2</k-swipe-item>
+        <k-swipe-item class="slide3">3</k-swipe-item>
+    </k-swipe>
 
-    <h2>隐藏 indicators</h2>
-        <k-swipe :show-indicators="false">
-            <k-swipe-item class="slide1">1</k-swipe-item>
-            <k-swipe-item class="slide2">2</k-swipe-item>
-            <k-swipe-item class="slide3">3</k-swipe-item>
-        </k-swipe>
-
-    <h2>取消自动播放</h2>
-        <k-swipe :auto="0">
-            <k-swipe-item class="slide1">1</k-swipe-item>
-            <k-swipe-item class="slide2">2</k-swipe-item>
-            <k-swipe-item class="slide3">3</k-swipe-item>
-        </k-swipe>
-
-    <h2>设置默认显示页</h2>
-        <k-swipe :auto="0" :defaultIndex="1">
-            <k-swipe-item class="slide1">1</k-swipe-item>
-            <k-swipe-item class="slide2">2</k-swipe-item>
-            <k-swipe-item class="slide3">3</k-swipe-item>
-        </k-swipe>
-
-    <h2>单个幻灯片</h2>
-        <k-swipe :show-indicators="false">
-            <k-swipe-item class="slide1">单个幻灯片</k-swipe-item>
-        </k-swipe>
+    <button @click="openToast">点击弹出 Toast</button>
+    <button @click="openToastWithIcon">点击弹出带有 icon 的 Toast</button>
+    <button @click="openLoadingToast">点击弹出加载中...</button>
+    <button @click="openBottomToast">自定义 Toast 位置</button>
   </div>
 </template>
 
@@ -53,6 +32,7 @@
     import Navbar from 'ux/navbar/navbar'
     import KSwipe from 'ux/swipe/swipe'
     import KSwipeItem from 'ux/swipe/swipe-item'
+    import Toast from 'ux/toast/toast.js'
     export default {
         components: {
             Navbar,
@@ -62,6 +42,31 @@
         methods: {
             onleft () {
                 console.log('sadf')
+            },
+            openToast () {
+                Toast('提示信息')
+            },
+            openToastWithIcon () {
+                Toast({
+                    message: '点击弹出带有 icon 的 Toast',
+                    iconClass: 'icon icon-Kyani',
+                    duration: 10000
+                })
+            },
+            openLoadingToast () {
+                Toast({
+                    iconType: 'loading',
+                    message: '加载中....',
+                    duration: 2000
+                })
+            },
+            openBottomToast () {
+                Toast({
+                    iconType: 'fail',
+                    message: '失败啦',
+                    position: 'bottom',
+                    duration: 200000
+                })
             }
         }
     }
