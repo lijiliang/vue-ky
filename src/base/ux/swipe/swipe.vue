@@ -16,46 +16,89 @@
     @import '~varless';
     @prefixCls: mint-swipe;
 
-    .@{prefixCls} {
-        overflow: hidden;
-        position: relative;
-        height: 100%;
+    // .@{prefixCls} {
+    //     overflow: hidden;
+    //     position: relative;
+    //     height: 100%;
 
-        &-items-wrap{
-            position: relative;
-            overflow: hidden;
-            height: 100%;
+    //     &-items-wrap{
+    //         position: relative;
+    //         overflow: hidden;
+    //         height: 100%;
 
-            > div {
-                position: absolutes;
-                transform: translateX(-100%);
-                size: 100% 100%;
-                display: none;
-                &.active{
-                    display: block;
-                    transform: none;
-                }
-            }
-        }
+    //         > div {
+    //             position: absolutes;
+    //             transform: translateX(-100%);
+    //             size: 100% 100%;
+    //             display: none;
+    //             &.active{
+    //                 display: block;
+    //                 transform: none;
+    //             }
+    //         }
+    //     }
 
-        &-indicators {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%)
-        }
-        &-indicator{
-            size: 8px 8px;
-            display: inline-block;
-            border-radius: 100%;
-            background: #000;
-            opacity: 0.2;
-            margin: 0 3px;
-            &.active{
-                background: #fff;
-            }
-        }
-    }
+    //     &-indicators {
+    //         position: absolute;
+    //         bottom: 10px;
+    //         left: 50%;
+    //         transform: translateX(-50%)
+    //     }
+    //     &-indicator{
+    //         size: 8px 8px;
+    //         display: inline-block;
+    //         border-radius: 100%;
+    //         background: #000;
+    //         opacity: 0.2;
+    //         margin: 0 3px;
+    //         &.active{
+    //             background: #fff;
+    //         }
+    //     }
+    // }
+
+.mint-swipe {
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+.mint-swipe-items-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+.mint-swipe-items-wrap > div {
+    position: absolute;
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+    width: 100%;
+    height: 100%;
+    display: none
+}
+.mint-swipe-items-wrap > div.is-active {
+    display: block;
+    -webkit-transform: none;
+            transform: none;
+}
+.mint-swipe-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+}
+.mint-swipe-indicator {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 100%;
+    background: #000;
+    opacity: 0.2;
+    margin: 0 3px;
+}
+.mint-swipe-indicator.is-active {
+    background: #fff;
+}
 </style>
 
 <script>
@@ -269,7 +312,7 @@
                     }
 
                     if (nextPage) {
-                        prevPage.style.display = ''
+                        nextPage.style.display = ''
                     }
                 }
 
@@ -341,7 +384,7 @@
                 let dragPage = this.$children[this.index]
                 let nextPage = this.$children[this.idnex + 1]
 
-                if (this.continuous & this.pages.length > 1) {
+                if (this.continuous && this.pages.length > 1) {
                     if (!prevPage) {
                         prevPage = this.$children[this.$children.length - 1]
                     }
@@ -369,10 +412,10 @@
 
                 dragState.currentLeft = touch.pageX
                 dragState.currentTop = touch.pageY
-                dragState.currentTopAbolute = touch.clientY
+                dragState.currentTopAbsolute = touch.clientY
 
                 let offsetLeft = dragState.currentLeft - dragState.startLeft
-                let offsetTop = dragState.currentTopAbolute - dragState.startTopAbsolute
+                let offsetTop = dragState.currentTopAbsolute - dragState.startTopAbsolute
 
                 let distanceX = Math.abs(offsetLeft)
                 let distanceY = Math.abs(offsetTop)
@@ -479,7 +522,7 @@
 
             this.reInitPages()
 
-            var element = this.$el
+            let element = this.$el
 
             element.addEventListener('touchstart', (event) => {
                 if (this.prevent) event.preventDefault()
@@ -500,7 +543,7 @@
                 if (this.userScrolling) {
                     this.dragging = false
                     this.dragState = {}
-                    return true
+                    return
                 }
                 if (!this.dragging) return
                 this.initTimer()
