@@ -38,11 +38,13 @@
         left: 0;
     }
 
-    // 显示位置，还不能使用，待完善
+    // 显示位置 bottom middle top 默认为middle
     &.is-placebottom {
         bottom: 50px;
         left: 50%;
-        transform: translate(-50%, 0)
+        top: auto;
+        transform: translate(-50%, 0);
+        height: auto;
     }
     &.is-placemiddle{
         left: 50%;
@@ -52,7 +54,8 @@
     &.is-placetop{
         top: 50px;
         left: 50%;
-        transform: translate(-50%, 0)
+        transform: translate(-50%, 0);
+        height: auto;
     }
 
     &-notice {
@@ -60,7 +63,6 @@
         vertical-align: middle;
         position: relative;
         left: 50%;
-        // left: 50%;
     }
 
     &-notice-content {
@@ -75,7 +77,7 @@
             background-color: @toast-fill;
             line-height: @line-height-paragraph;
             padding: @v-spacing-md @h-spacing-lg;
-            font-size: 32px;
+            font-size: 30px;
             .@{prefixCls}-text-icon {
                 border-radius: @radius-md;
                 padding: @v-spacing-lg @h-spacing-lg;

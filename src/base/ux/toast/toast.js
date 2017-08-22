@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 const ToastConstructor = Vue.extend(require('./toast.vue'))
 let toastPool = []
+let instance
 
 let getAnInstance = () => {
     if (toastPool.length > 0) {
@@ -33,10 +34,11 @@ ToastConstructor.prototype.close = function () {
     returnAnInstance(this)
 }
 
-let Toast = (options = {}) => {
-    let duration = options.duration || 3000
+// 显示toast
+let open = (options = {}) => {
+    let duration = (options.duration || 3) * 1000
 
-    let instance = getAnInstance()
+    instance = getAnInstance()
     instance.closed = false
     clearTimeout(instance.timer)
     instance.message = typeof options === 'string' ? options : options.message
@@ -44,11 +46,6 @@ let Toast = (options = {}) => {
     instance.className = options.className || ''
     instance.iconClass = options.iconClass || ''
     instance.iconType = options.iconType || ''
-    // 删除
-    // instance.hide = (function () {
-    //     instance.visible = false
-    //     instance.$el.removeEventListener('transitionend', removeDom)
-    // })()
 
     document.body.appendChild(instance.$el)
     Vue.nextTick(function () {
@@ -63,4 +60,13 @@ let Toast = (options = {}) => {
     return instance
 }
 
-export default Toast
+// 关闭toast
+let close = () => {
+    if (instance) {
+        instance.visible = false
+        instance.$el.removeEventListener('transitionend', removeDom)
+        instance.close()
+    }
+}
+
+export default {open, close}

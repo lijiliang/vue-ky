@@ -44,29 +44,32 @@
                 console.log('sadf')
             },
             openToast () {
-                Toast('提示信息')
+                Toast.open('提示信息')
             },
             openToastWithIcon () {
-                Toast({
+                Toast.open({
                     message: '点击弹出带有 icon 的 Toast',
                     iconClass: 'icon icon-Kyani',
-                    duration: 10000
+                    duration: 10
                 })
             },
             openLoadingToast () {
-                Toast({
+                Toast.open({
                     iconType: 'loading',
                     message: '加载中....',
-                    duration: 2000
+                    duration: 2
                 })
             },
             openBottomToast () {
-                Toast({
+                Toast.open({
                     iconType: 'fail',
                     message: '失败啦',
                     position: 'bottom',
-                    duration: 200000
+                    duration: 20
                 })
+                setTimeout(() => {
+                    Toast.close()
+                }, 2000)
             }
         }
     }
