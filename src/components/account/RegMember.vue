@@ -25,6 +25,11 @@
     <button @click="openToastWithIcon">点击弹出带有 icon 的 Toast</button>
     <button @click="openLoadingToast">点击弹出加载中...</button>
     <button @click="openBottomToast">自定义 Toast 位置</button>
+
+    <button @click="showConfirm">显示modal</button>
+    <Modal ref="modal" @confirm="confirmClear" text="提示操作"></Modal>
+    <br />
+    <div class="loader-circle"></div>
   </div>
 </template>
 
@@ -33,11 +38,13 @@
     import KSwipe from 'ux/swipe/swipe'
     import KSwipeItem from 'ux/swipe/swipe-item'
     import Toast from 'ux/toast/toast.js'
+    import Modal from 'ux/modal/modal'
     export default {
         components: {
             Navbar,
             KSwipe,
-            KSwipeItem
+            KSwipeItem,
+            Modal
         },
         methods: {
             onleft () {
@@ -70,6 +77,12 @@
                 setTimeout(() => {
                     Toast.close()
                 }, 2000)
+            },
+            showConfirm () {
+                this.$refs.modal.show()
+            },
+            confirmClear () {
+                console.log('确定按钮的操作sadfasdf')
             }
         }
     }
@@ -102,6 +115,29 @@
       .slide3 {
         background-color: #ff2d4b;
         color: #fff;
+      }
+      .loader-circle{
+         width: 60px;
+         height: 60px;
+         border-radius: 50%;
+         display: inline-block;
+         text-indent: -9999em;
+         border-top: 4px solid #eee;
+         border-right: 4px solid #eee;
+         border-bottom: 4px solid #eee;
+         border-left: 4px solid #108ee9;
+         transform: translateZ(0);
+         animation: loading 1.1s infinite linear;
+      }
+
+      @keyframes loading {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        to {
+            transform: rotate(1turn)
+        }
       }
 </style>
 
