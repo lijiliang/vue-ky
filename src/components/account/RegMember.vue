@@ -30,6 +30,12 @@
     <Modal ref="modal" @confirm="confirmClear" text="提示操作"></Modal>
     <br />
     <div class="loader-circle"></div>
+    <h2>单独loading效果</h2>
+    <Loading />
+    <h2>loading 加文字</h2>
+    <Loading title="loading..."/>
+    <h2>loading 加大</h2>
+    <Loading title="loading..." size="large"/>
   </div>
 </template>
 
@@ -39,12 +45,14 @@
     import KSwipeItem from 'ux/swipe/swipe-item'
     import Toast from 'ux/toast/toast.js'
     import Modal from 'ux/modal/modal'
+    import Loading from 'ux/loading/loading'
     export default {
         components: {
             Navbar,
             KSwipe,
             KSwipeItem,
-            Modal
+            Modal,
+            Loading
         },
         methods: {
             onleft () {
