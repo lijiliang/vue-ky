@@ -167,7 +167,6 @@ export default {
         // iconUrl
         iconTypeUrl () {
             var iconUrl = ''
-            console.log(this.iconType)
             switch (this.iconType) {
             case 'success':
                 iconUrl = Success
